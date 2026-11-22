@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html data-page-node-id="4uqYdA7ri6QPvvwlOecxxB" lang="zh-CN">
+<head data-page-node-id="w0VuSj7aK785dVOzowCKZv">
+<script data-page-node-id="idDQdxxLUI1nNABpMDTurq" src="/page/page_comm/inject.js"></script>
+<meta data-page-node-id="glgH4GeOjTLOLEm2D2htZ1" charset="utf-8">
+<meta data-page-node-id="gohMLocW4s2HW4ISJljpf3" content="width=device-width,initial-scale=1,user-scalable=no" name="viewport">
+<title data-page-node-id="J1BnjANqrx5CailW4UL8Gi" data-pnid-children="ALHndHHHNcv7TEGXnenwqV">原生家庭出厂设置检测 · 系统自检</title>
+<style data-page-node-id="n7TwUuMigmHnbIz1vpjGOV" data-pnid-children="8TpxVOw3dXKbClXxOKbcNY">
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{background:linear-gradient(160deg,#101218,#1A1D26 55%,#12141B);color:#F5F5F7;font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;min-height:100vh}
+.wrap{max-width:430px;margin:0 auto;padding:14px 16px 60px}
+/* 状态栏 */
+.sbar{display:flex;justify-content:space-between;align-items:center;padding:6px 8px 14px;font-size:13px;font-weight:700;color:#E8E8ED}
+.sbar .r{display:flex;gap:6px;align-items:center;font-size:11px;letter-spacing:1px}
+.batt{width:22px;height:11px;border:1.5px solid #E8E8ED;border-radius:3px;position:relative;display:inline-block}
+.batt::after{content:"";position:absolute;left:1.5px;top:1.5px;bottom:1.5px;width:70%;background:#30D158;border-radius:1px}
+/* 卡片 */
+.card{background:#1C1E24;border:1px solid #2C2F38;border-radius:20px;padding:22px 18px;margin-bottom:14px;box-shadow:0 8px 30px rgba(0,0,0,.45)}
+.btn{display:block;width:100%;padding:15px;border:none;border-radius:14px;background:#0A84FF;color:#FFF;font-size:16px;font-weight:800;cursor:pointer;margin-top:16px;font-family:inherit}
+.btn:active{opacity:.75}
+.btn.ghost{background:#2C2F38;color:#E8E8ED}
+.btn.warm{background:linear-gradient(135deg,#FF9F0A,#FF6B35);color:#1A1000}
+h1{font-size:24px;font-weight:900;line-height:1.35;letter-spacing:.5px}
+.sub{font-size:13px;color:#98989F;margin-top:10px;line-height:1.75}
+.bar{height:6px;background:#2C2F38;border-radius:99px;overflow:hidden;margin:16px 0 18px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,#0A84FF,#64D2FF);border-radius:99px;transition:width .25s}
+.qn{font-size:11px;color:#8E8E93;font-weight:700;letter-spacing:1.5px;text-transform:uppercase}
+.qt{font-size:18px;font-weight:800;line-height:1.55;margin-top:6px}
+.opt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:14px 15px;border:1px solid #2C2F38;border-radius:14px;background:#22242B;font-size:15px;line-height:1.55;margin-top:10px;cursor:pointer;font-family:inherit;color:#F5F5F7}
+.opt:active{background:#2C2F38}
+.opt .radio{flex-shrink:0;width:20px;height:20px;border:2px solid #484B55;border-radius:50%;position:relative}
+/* 更新横幅 */
+.hero{border-radius:22px;padding:30px 20px;text-align:center;color:#FFF;position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.18)}
+.hero .in{position:relative}
+.hero .upd{font-size:11px;letter-spacing:3px;opacity:.85;font-weight:700}
+.ver{font-size:26px;font-weight:900;margin-top:10px;line-height:1.3}
+.vtag{font-size:13px;margin-top:8px;opacity:.92;line-height:1.6}
+.hero svg{width:140px;height:140px;filter:drop-shadow(0 10px 22px rgba(0,0,0,.4))}
+.chip{flex-shrink:0;font-size:11px;font-weight:800;padding:5px 10px;border-radius:99px;white-space:nowrap}
+.bio{background:#22242B;border:1px solid #2C2F38;border-radius:14px;padding:16px 16px;font-size:14px;line-height:2;color:#E8E8ED}
+/* 清单行 */
+.drow{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #262932}
+.drow:last-child{border-bottom:none}
+.drow .ic{flex-shrink:0;width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.drow .nm{flex:1;font-size:14px;font-weight:700}
+.drow .db{flex:1.4}
+.drow .db .t{height:5px;background:#2C2F38;border-radius:99px;overflow:hidden}
+.drow .db .t i{display:block;height:100%;border-radius:99px}
+.drow .pc{flex-shrink:0;font-size:12px;color:#98989F;font-weight:700;width:36px;text-align:right}
+.blurwrap{position:relative}
+.blurred{filter:blur(7px);pointer-events:none;user-select:none}
+.lockcover{display:flex;flex-direction:column;align-items:center;gap:10px;padding:18px 0 4px;border-top:1px dashed #3A3E4A;margin-top:8px}
+/* 日志 */
+.log{background:#0B0D12;border:1px solid #262932;border-radius:16px;padding:16px 15px;font-family:"SF Mono",ui-monospace,Menlo,Consolas,monospace;font-size:13px;line-height:2;color:#9FE870}
+.log .lg{color:#6E7A5A}
+.sym{background:#22242B;border:1px solid #2C2F38;border-radius:14px;padding:13px 15px;font-size:14px;line-height:1.65;margin-bottom:9px}
+.sec{font-size:12px;font-weight:900;margin:20px 0 10px;padding-left:10px;border-left:4px solid #0A84FF;color:#C7C7CC;letter-spacing:1px}
+.quote{background:linear-gradient(135deg,#1C1E24,#232630);border:1px solid #3A3E4A;border-radius:16px;padding:20px 18px;text-align:center;font-size:15px;line-height:1.9;color:#F5F5F7;font-weight:700}
+.share{background:#0B0D12;border:1px solid #262932;border-radius:16px;padding:18px 16px;text-align:center;margin-top:16px}
+.share .s1{font-size:10px;color:#8E8E93;letter-spacing:2px}
+.share .s2{font-size:20px;font-weight:900;margin-top:8px}
+.share .s3{font-size:12px;color:#98989F;margin-top:6px}
+.foot{text-align:center;font-size:10.5px;color:#6B6E76;margin-top:24px;line-height:1.9}
+.duo{display:flex;gap:10px;margin-top:10px}
+.duo>div{flex:1;background:#22242B;border:1px solid #2C2F38;border-radius:14px;padding:12px;font-size:13px;line-height:1.6}
+.duo b{font-size:14px}
+.tin{width:100%;padding:14px;border:1px solid #3A3E4A;border-radius:14px;background:#0B0D12;color:#F5F5F7;font-size:16px;text-align:center;font-family:inherit;letter-spacing:4px}
+.hide{display:none}
+</style>
+</head>
+<body data-page-node-id="hVADVbUe1TrFKuNVEI0GVk">
+<div data-page-node-id="l2J2OAJ6P5Qncj9jUTJYMg" class="wrap">
+
+<div data-page-node-id="2IY424Mqs6Np0Sp3QLuWHX" class="sbar"><span data-page-node-id="zDR1hvbcCsbZp3RSh2DoOn"><!--pnid:X1G9XbDf6MzZWuXl85HDpR-->9:41</span><span data-page-node-id="jLvkgbA3NP15PHFg4mgJ1s" class="r"><span data-page-node-id="Ty8mFTPF8fnt9u97nutzDO"><!--pnid:syfbDIsg6C0NAJ6Nk65NM9-->●●●</span><span data-page-node-id="B0y99Rf7Ho32Q5O8zOgAFd"><!--pnid:V3g3RKT9aMHQKfJUYZmk9X-->5G</span><span data-page-node-id="LCZ319Ki7gAqoC3I5u3uTX" class="batt"></span></span></div>
+
+<div data-page-node-id="ar51ftwLhUQQGH4gawOkNI" id="pHome">
+  <div data-page-node-id="MN5dFJSMUau1PazM5OE1dv" class="card" style="text-align:center; padding:34px 20px">
+    <div data-page-node-id="SYVbZ57cvBiAGzfQtLPigu" style="width:74px; height:74px; margin:0 auto; border-radius:18px; background:linear-gradient(135deg,#0A84FF,#5E5CE6); display:flex; align-items:center; justify-content:center; font-size:36px; box-shadow:0 10px 30px rgba(10,132,255,.35)"><!--pnid:U04i8FfIED2dMi6TUEQZnU-->⚙️</div>
+    <h1 data-page-node-id="ees8qRR4bvBhnpjvZ5KNhb" style="margin-top:18px"><!--pnid:zIIXb8EAS6XD8TXgiQ8LSg-->原生家庭<br data-page-node-id="bP4OiH77KeNaDca1fcjKrI"><!--pnid:iY0Nd7hkwrLI4EL1QpNqQN-->出厂设置检测</h1>
+    <div data-page-node-id="35VcFkfosQ48BFjDkCT9gU" class="sub"><!--pnid:ziLKkwK4o2WgH7Xkefi3cJ-->系统自检即将开始：扫描你的 8 项预装软件，<br data-page-node-id="E2rScBT7gI422BXx8uNZWB"><!--pnid:wkD0VKs60l0bcfKfg1YKwA-->检测你被写入的出厂配置——<br data-page-node-id="hT90PycVTxrUWTQjY34FNd"><!--pnid:DTMrDxi2M0lTyPth2EyuO6-->24 道场景题 · 8 维内核扫描 · 9 种出厂版本</div>
+    <button data-page-node-id="ub7VB000hc2YCO9Jamopr8" class="btn" onclick="start()"><!--pnid:BTHwkEu3JE0bDFOVNcg4il-->开始系统自检 · 24 项</button>
+    <button data-page-node-id="xxfU4b1bBykR7iRLtpBpYZ" class="btn ghost" onclick="alert('娱乐向自测：用趣味标签聊聊成长环境给你的影响，不是心理测评，也不构成任何诊断。')"><!--pnid:a38s6AIupVqwVjPIouuBWV-->这测的啥？</button>
+  </div>
+  <div data-page-node-id="0MUNSXvqAPliqkBU2EaqrM" class="card" style="padding:14px 18px; display:flex; gap:10px; align-items:center">
+    <span data-page-node-id="NR9BCswamO4EgoVx55B3qb" style="font-size:18px"><!--pnid:JUUmDORU42LSq4T9Z0gvEl-->🔔</span>
+    <span data-page-node-id="CYGxzy3ISXj2PVD7M4ALVc" style="font-size:12px; color:#98989F; line-height:1.6"><!--pnid:HqseLbpQe3ogRgKccVmT4G-->系统提示：本机检测结果仅供娱乐与自我觉察，<br data-page-node-id="5xeIcRv2bSCi0xPjdV6De4"><!--pnid:CGAmOGkJZRUfL2fVrx8Tfi-->每个版本都没有好坏之分，你和你的版本都很酷。</span>
+  </div>
+</div>
+
+<div data-page-node-id="v7UwSpEvmFy1TeGEkvsIyP" class="hide" id="pQuiz">
+  <div data-page-node-id="HTaVg4Obf9PJWoTByNCiI5" class="card">
+    <div data-page-node-id="fzmA6ooXLFtTIQb9nj4hpk" class="qn" id="qNum"></div>
+    <div data-page-node-id="RwEXXcnSDE1k4ZKobSnHN7" class="bar"><i data-page-node-id="RzvlAtzlod8jgzxay9YkWz" id="qBar" style="width:4%"></i></div>
+    <div data-page-node-id="tSRgm7qRgkUi2gclwXkaMP" class="qt" id="qText"></div>
+    <div data-page-node-id="v60wUSTlnUKaMxjfUdKNsn" id="qOpts"></div>
+  </div>
+</div>
+
+<div data-page-node-id="glNFDiEKrgON9kIdfaWQEu" class="hide" id="pResult">
+  <div data-page-node-id="OMUNruSzVeTXbhL6dWHMIY" class="hero" id="hero">
+    <div data-page-node-id="jCkEc1YPnxtQ3mpsyryiEw" class="in">
+      <div data-page-node-id="HF2YFraY4J4A7f135SWAZC" id="rChar" style="margin:-6px 0 10px"></div>
+      <div data-page-node-id="AYReO80i6tCZlAzwUw4qku" class="upd"><!--pnid:GLFYSvPTLBMvjiR4l24hNg-->SYSTEM CHECK COMPLETE · 自检完成</div>
+      <div data-page-node-id="NDfYoVGpGfoyd0KWYATY93" class="ver" id="rVer"></div>
+      <div data-page-node-id="90bDAyOLZfY2pNIdb69JCY" class="vtag" id="rTag"></div>
+    </div>
+  </div>
+
+  <div data-page-node-id="pwOnOMxLtltgmXrrfkQpIJ" class="card">
+    <div data-page-node-id="MAD3FFpq4UWATLJWCdTSrA" class="sec"><!--pnid:VeXEcpBYz0ThRFbHbxPmYi-->预装软件清单 · 8 项内核扫描</div>
+    <div data-page-node-id="aKE5kyoaWUbiotmOT9rkUo" id="rDims"></div>
+    <div data-page-node-id="FwfoC5AwftglBehgSSBhJ4" id="lockZone">
+      <div data-page-node-id="vb5HqmJozCEbby4uRfjqxq" class="lockcover" id="lockCover">
+        <div data-page-node-id="b9QlhSwxyeNGmkR4FhFdiL" style="font-size:30px"><!--pnid:Ec5Lvi7t3G9b7oMyw7lBAn-->🔒</div>
+        <div data-page-node-id="WcEl4AGfPX3ZDqgICuLfgV" style="font-size:13px; color:#C7C7CC; font-weight:700"><!--pnid:glEosHqfcsnAPyzE7wz57C-->完整报告已加密</div>
+        <div data-page-node-id="vBE6TT8V65r5M2wZk75r5w" style="font-size:11px; color:#8E8E93; text-align:center; line-height:1.6"><!--pnid:CfOoXbohABtXGM6xKA0aqU-->含全部预装软件、系统日志、<br data-page-node-id="rXdY33ak85S2kay5UftoAk"><!--pnid:kNzhsDoYTQzSspuCD9RmiO-->隐藏技能与改密码建议</div>
+        <input data-page-node-id="AkYdRbJGKi1MSh9t8d7yZD" class="tin" id="tkInput" maxlength="20" placeholder="输入激活码" style="width:220px; margin-top:4px">
+        <button data-page-node-id="KxLjCR9ohtigQEjlqRx4qo" class="btn warm" onclick="tryUnlock()" style="width:220px; margin-top:8px; padding:12px"><!--pnid:SMMPF5iZrEZqsAVaRxLZ8u-->解锁完整报告</button>
+        <div data-page-node-id="KmeKe2YR7JNYs22QxO8JLe" style="font-size:10px; color:#6B6E76"><!--pnid:sVinTdQPexsUG5FlXOCXLt-->激活码见商品购买说明</div>
+      </div>
+    </div>
+  </div>
+
+  <div data-page-node-id="mIXYl64zflPdCK7HoPU6DB" class="card" id="fullZone">
+    <div data-page-node-id="ohdJS3Thks70cb9wgB1xh5" class="sec" id="secLog"><!--pnid:N0viFhruF688BgBEuOVyLD-->系统日志摘录</div>
+    <div data-page-node-id="SI2Q4u4zIi817ykSgk6mPR" class="log" id="rLog"></div>
+    <div data-page-node-id="wRNizDQnstaQAWjpxmMcUi" id="paidZone">
+      <div data-page-node-id="icwjnMmrxSGx5h3Uze0GuZ" class="sec"><!--pnid:xubaOqw5v5DpI51QyGk2v3-->你的小传</div>
+      <div data-page-node-id="l6K0csK791cRviXHLo8Voi" class="bio" id="rBio"></div>
+      <div data-page-node-id="TfyagD6v0i0zREjUpDLada" class="sec"><!--pnid:rsLbFbPPvVf1lBSadqSLUB-->隐藏技能 · 出厂附赠</div>
+      <div data-page-node-id="UtPrE41E9Ab48QqrTLUezG" class="sym" id="rSkill" style="background:#1A2E1A; border-color:#2E5C2E"></div>
+      <div data-page-node-id="UsWUEdjpJ0ODtAlYofTUdh" class="sec"><!--pnid:QfFzX8Kr2DtRLxOCYBFpe3-->改密码建议 · 可选更新</div>
+      <div data-page-node-id="AEoMr5YQUR42UzwL61zbEs" id="rTips"></div>
+      <div data-page-node-id="xNjzOquWQg9ynKge9pn1jF" class="sec"><!--pnid:LCXtwLkSsAkNhOklq2R3Mu-->系统留言</div>
+      <div data-page-node-id="WW0K7ErBGZuEPN6DPW6oy2" class="quote" id="rQuote"></div>
+      <div data-page-node-id="dBAs1y3BO0lIH50ejpRccu" class="sec"><!--pnid:HggJi3JV7Vat12Uf8vDaDS-->备选镜像 · 另一种你</div>
+      <div data-page-node-id="QyHJTAYjK4iCgZ456YX10d" class="duo"><div data-page-node-id="u3eOGnUG4kVNuP6NyPk3xu"><b data-page-node-id="y16257Iu3hcnmRes622Snn" id="rAlt"></b><br data-page-node-id="gz8ics8pb9AKfqoG1sxl80"><span data-page-node-id="vmgGg8yp7U3kZLSbeQtDv5" id="rAltNote" style="color:#98989F"></span></div></div>
+      <div data-page-node-id="VEHHnAKJeJcsgJhzKwMzNB" class="share">
+        <div data-page-node-id="qJbY7wkOV3ZhxlBiuMPBcl" class="s1"><!--pnid:vRAEwxvsZPRo0lXqaCidIA-->⚙️ SYSTEM UPDATE</div>
+        <div data-page-node-id="xmWPNQgdRk6j3SFjU2QPIW" class="s2" id="scName"></div>
+        <div data-page-node-id="HpRGq2k9xGxj6BuLxJfvFE" class="s3" id="scLine"></div>
+      </div>
+      <button data-page-node-id="Zm0VhA7RxBLe3FyKzyrbSq" class="btn" onclick="shareIt()"><!--pnid:zBmP9ym9N0tsF4aoXijH7W-->分享 · 召集机友对照</button>
+    </div>
+  </div>
+
+  <div data-page-node-id="LrGDcJ5zCeSzV1cuqUMHxp" class="foot"><!--pnid:vSNoP2fGHCVhi3lTEzj2y2-->本测试为娱乐内容 · 标签为趣味自嘲非心理测评<br data-page-node-id="w7Wyjp3rRdBHsEngNbwNMl"><!--pnid:YHoBF22d0XvhoT4xA1pWFH-->不构成任何诊断或评价 · 你的系统你说了算</div>
+</div>
+
+</div>
+<script data-page-node-id="2SIktmOFVLFJtWaxDBo1qS" data-pnid-children="FG4e7dcwE7WvdGq5hwNgrL">
+/* ========= 上线配置：激活码 ========= */
+/* 空 = 不设门槛（自己测试用）；上架后填入你的暗号，如 "cc2026"，
+   买家支付后把暗号发给 TA，TA 在解锁框输入或访问 xxx?k=cc2026 即可解锁 */
+var ACCESS_TOKEN="";
+
+/* ========= 8 项预装软件（维度） ========= */
+var DIMS={
+ A:{n:"情绪加密模块",i:"🔐",c:"#FF9F0A"},
+ B:{n:"懂事协议",i:"📁",c:"#FFD60A"},
+ C:{n:"边界防火墙",i:"🛡️",c:"#0A84FF"},
+ D:{n:"内耗后台进程",i:"🌀",c:"#BF5AF2"},
+ E:{n:"环境感知加速器",i:"📡",c:"#5E5CE6"},
+ F:{n:"独立生存模块",i:"🎒",c:"#64D2FF"},
+ G:{n:"幽默防御补丁",i:"🎭",c:"#30D158"},
+ H:{n:"反骨驱动",i:"🔥",c:"#FF453A"}
+};
+/* ========= 9 种出厂版本 ========= */
+var VERS=[
+ {n:"提前懂事 V9.0",g:"#FF9F0A",g2:"#B25E08",tag:"小时候帮爸妈看脸色点菜，长大帮同事看脸色开会",
+  v:[0,2,-1,1,2,-1,0,-1],
+  log:["检测到「察言观色」组件自启动——进门 3 秒内完成全家情绪扫描","「懂事」协议后台常驻：想买的先说“不用”，被拒绝了再偷偷遗憾","深夜复盘模块运行中：“今天那句话，爸妈是不是不高兴了”"],
+  skill:"超强共情雷达——别人的潜台词你秒懂，是朋友圈公认的“最靠谱的人”。",
+  tips:["偶尔把“我随便”改成“我想吃那个”，系统会报错但很值得。","懂事是技能，不是义务，你可以选择性开机。"],
+  quote:"你提前学会了懂事，但从今天起，也可以慢慢学会撒娇。"},
+ {n:"报喜不报忧 PRO",g:"#30D158",g2:"#1B8A3A",tag:"体检报告捂三个月，加班到凌晨的朋友圈分组屏蔽家人",
+  v:[2,0,-1,1,0,0,1,0],
+  log:["「坏消息过滤器」永久开启：委屈自动压缩，烦恼静音处理","电话脚本自动生成：吃饭了 / 不加班 / 钱够花（三件套已背诵）","检测到未发送消息草稿 47 条：都说“没事”，其实都有点事"],
+  skill:"超强抗压内核——一个人扛住了生活的大半风浪，还扛得风平浪静。",
+  tips:["坏消息也是新闻，家人有权知道——试着从最小的一件开始播报。","你捂住的不是坏事，是想被心疼的念头，让它见一次光。"],
+  quote:"你把所有的“没事”都留给了自己，这次，换你说说有事吧。"},
+ {n:"反骨未删干净 V1.0",g:"#FF453A",g2:"#B22D26",tag:"让你往东你先想往西，爸妈的指令默认进回收站",
+  v:[-1,0,1,-1,-1,2,1,2],
+  log:["「先问要不要」驱动已加载：收到建议后自动生成对抗方案","检测到童年补丁：越被说不行的事，越要偷偷做成","「我的地盘我做主」权限：从未向任何设备开放"],
+  skill:"超强逆风翻盘能力——别人的“你不行”是你的燃料库。",
+  tips:["反骨留三分用来闯，留七分听劝，效果更佳。","偶尔接受一次建议，天不会塌，反而省一半力气。"],
+  quote:"你的“不听话”，其实是最早的自我主张，它救过你很多次。"},
+ {n:"边界防火墙 V5.2",g:"#0A84FF",g2:"#0A5BBF",tag:"工资、恋爱、周末安排，全部列为受保护文件",
+  v:[1,0,2,-1,0,0,0,0],
+  log:["「隐私分区」已加密：访问需提前 48 小时申请","检测到防火墙升级记录：每次“随便你”之后，墙又高了半米","陌生请求已拦截：包括“什么时候带对象回来”"],
+  skill:"超强自我管理——你的人生方向盘，从来只在自己手里。",
+  tips:["防火墙留着防风险，但记得给重要的人开个白名单。","拒绝不等于翻脸，“这次先不聊”也是完整回答。"],
+  quote:"你的界限不是冷漠，是把自己照顾好的第一步。"},
+ {n:"内耗旗舰机 Pro Max",g:"#BF5AF2",g2:"#7A36A8",tag:"爸妈一句“随便你”，你能解码出三层含义",
+  v:[0,1,0,2,1,0,0,-1],
+  log:["「过度解读」后台进程占用 87%：一条微信能琢磨一晚上","自我检讨模块异常活跃：明明不是你的错，也要开个复盘会","睡前回放插件已就位：十年前的尴尬片段仍在循环播放"],
+  skill:"超强细节捕捉——你能注意到所有人都忽略的情绪，这是天赋不是病。",
+  tips:["给后台进程设个暂停键：“想十分钟，就去做一件具体的事”。","别人的情绪不是你的 KPI，你只需要负责自己这一份。"],
+  quote:"想太多不是你的错，只是你的心太认真了。"},
+ {n:"幽默防御补丁 V2.3",g:"#FFD60A",g2:"#B29A00",tag:"气氛一严肃就讲段子，眼泪到达眼眶前自动切搞笑模式",
+  v:[1,1,0,0,0,0,2,0],
+  log:["「玩笑拦截」已启动：所有走心话题在落地前被强制改编成段子","检测到隐藏文件夹：里面存着没敢说的真心话","深夜模式例外：只有凌晨的自己听过你的正经话"],
+  skill:"超强气氛调节——你是所有聚会的心灵按摩师，也是家里的开心果。",
+  tips:["试试让一句话不走幽默通道，直接说出来，对方接得住。","段子保你周全，但真心话才能换来真心话。"],
+  quote:"你用笑声保护了很多人，也请记得让自己被认真对待一次。"},
+ {n:"独立生存模块 V7.7",g:"#64D2FF",g2:"#2A9BC4",tag:"十八岁就完成出厂，行李箱轮子比你先学会独立",
+  v:[0,0,0,0,-1,2,0,1],
+  log:["「自给自足」模块全天候运行：搬家、修灯、报修全流程无外援","求助功能长期未激活：默认“自己可以，麻烦别人不行”","定位共享权限对家人永久关闭（其实只是不想他们担心）"],
+  skill:"超强生存力——一个人活成了一支队伍，还活得井井有条。",
+  tips:["独立是优点，但“求助”也是成年人的一项高级技能。","累了就靠一靠，你不需要永远当那根顶梁柱。"],
+  quote:"你把独立练成了本能，也别忘了，被人帮一下也很勇敢。"},
+ {n:"察言观色顶配版",g:"#5E5CE6",g2:"#3D3AA8",tag:"进门先扫一遍脸色，比看天气预报还准",
+  v:[0,1,0,0,2,-1,1,0],
+  log:["环境感知系统实时运行：脚步声、语气、筷子放下的角度都在监测范围","「气氛预警」推送精准：爸妈还没开口，你已经知道今天能不能提要求","该技能长期超频运转，注意散热（你的心也需要休息）"],
+  skill:"超强人际嗅觉——在职场上这是稀缺天赋，同事都爱跟你搭伙。",
+  tips:["感知力用来理解别人，也可以用来照顾自己。","不用每次都第一个捕捉气氛，让别人也动动手。"],
+  quote:"你读得懂全世界的脸色，也请记得读一读自己的心情。"},
+ {n:"标准旗舰版",g:"#8E8E93",g2:"#5C5C61",tag:"无明显预装软件，你的性格全是自己后期刷的机",
+  v:[0,-1,0,-1,0,1,0,1],
+  log:["出厂检测完成：未发现强制性预装，各模块均可自由开关","「自我更新」进程运行良好：你的版本号一直在自己手里","恭喜，这套系统相当干净，请继续保持"],
+  skill:"超强自我一致性——想清楚再行动，行动完不内耗，精神状态领先版本。",
+  tips:["保持定期自检，但别过度优化，偶尔的 bug 也是人生。","你有立场，也听得进话，这是很高级的系统架构。"],
+  quote:"你没有活在任何人的期待里——你的系统，纯天然无添加。"}
+];
+/* ========= 24 道场景题 ========= */
+var Q=[
+ {t:"加班到深夜，妈妈突然发来视频邀请：",o:[
+   {x:"立刻接，强撑笑脸说刚到家",d:[["A",1],["B",1]]},
+   {x:"挂断，回微信“刚洗完澡，明天聊”",d:[["A",1]]},
+   {x:"接了，讲十分钟趣事，绝口不提加班",d:[["A",1],["G",1],["E",1]]},
+   {x:"直接说还在公司，顺便吐槽两句",d:[["A",-2],["G",1]]}]},
+ {t:"体检报告出了个小问题，你会：",o:[
+   {x:"先自己查三天资料，稳了再提",d:[["A",1],["D",2]]},
+   {x:"当天告诉爸妈，全家会诊",d:[["A",-2]]},
+   {x:"说了，但轻描淡写“没事”",d:[["A",1]]},
+   {x:"谁也不说，自己默默复查",d:[["A",1]]}]},
+ {t:"过年饭桌，亲戚问“一个月挣多少”：",o:[
+   {x:"报个打折的数，让爸妈有面子",d:[["B",1],["G",1]]},
+   {x:"微笑说“够花”，火速转移话题",d:[["G",2]]},
+   {x:"理直气壮报实数",d:[["C",1],["H",1]]},
+   {x:"反问“叔叔您家孩子呢”",d:[["G",2],["H",1]]}]},
+ {t:"爸妈说“你这工作不稳定，回来考编吧”：",o:[
+   {x:"认真讨论，最后还是按他们的意思调整",d:[["B",2],["D",1]]},
+   {x:"口头答应，实际照旧",d:[["A",1],["H",1]]},
+   {x:"摆数据讲规划，试图说服",d:[["E",1]]},
+   {x:"“我的工作我做主”，直接拒绝",d:[["F",1],["H",2]]}]},
+ {t:"小时候考了 95 分，回家第一句：",o:[
+   {x:"“妈，还差 2 分的题太难了”",d:[["A",1],["G",1]]},
+   {x:"先看爸妈脸色，再决定怎么说",d:[["B",2],["E",2]]},
+   {x:"直接说 95，等下一句",d:[["B",-1],["H",1]]},
+   {x:"把卷子折起来塞书包底层",d:[["A",1],["D",2]]}]},
+ {t:"你的房间，爸妈能不打招呼就进吗：",o:[
+   {x:"从来不行，门必须关",d:[["C",2]]},
+   {x:"可以进，反正也没秘密",d:[["C",-2],["B",1]]},
+   {x:"现在不行了——我搬出去住了",d:[["C",1],["F",1]]},
+   {x:"无所谓，我常年不在家",d:[["F",1],["A",1]]}]},
+ {t:"换工作、搬家这种大事，你先告诉谁：",o:[
+   {x:"定好了才说，通知性质",d:[["C",1],["F",1]]},
+   {x:"事前一定商量，他们的意见很重要",d:[["B",2],["C",-1]]},
+   {x:"说一半，留一半",d:[["A",1]]},
+   {x:"能不提就不提",d:[["A",1]]}]},
+ {t:"家庭群里出现养生谣言，你的操作：",o:[
+   {x:"假装没看见，眼不见心不烦",d:[["A",1],["G",1]]},
+   {x:"私聊爸妈纠正，给他们留面子",d:[["E",1],["B",1]]},
+   {x:"群里直接甩辟谣链接",d:[["H",2]]},
+   {x:"已读不回，例行公事",d:[["A",1]]}]},
+ {t:"爸妈吵架，你在场的反应：",o:[
+   {x:"自动切换和事佬模式",d:[["B",2],["E",2]]},
+   {x:"回房间戴上耳机，物理隔绝",d:[["C",2],["F",1]]},
+   {x:"用玩笑把气氛岔开",d:[["G",2]]},
+   {x:"事后反复回想，是不是自己没做好",d:[["D",2],["A",1]]}]},
+ {t:"你的存款，爸妈知道具体数字吗：",o:[
+   {x:"知道，我家财务全透明",d:[["C",-2]]},
+   {x:"知道大概，具体保密",d:[["C",1]]},
+   {x:"完全不知道，这是商业机密",d:[["C",2],["A",1]]},
+   {x:"他们不看我的，我也不问他们的",d:[["F",1]]}]},
+ {t:"有点小成就（升职/中签）第一时间：",o:[
+   {x:"发家庭群，配三个感叹号",d:[["A",-1],["B",1]]},
+   {x:"只发朋友圈，家人在屏蔽分组里",d:[["A",1]]},
+   {x:"等爸妈问起来再说",d:[["A",1],["G",1]]},
+   {x:"自己开心一下，没必要张扬",d:[["F",1],["C",1]]}]},
+ {t:"爸妈的意见和你的想法冲突时，你的默认设置：",o:[
+   {x:"先听他们的，他们有经验",d:[["B",2],["H",-2]]},
+   {x:"表面听着，行动看心情",d:[["A",1],["H",1]]},
+   {x:"据理力争，讲到他们点头为止",d:[["H",2]]},
+   {x:"直接执行，做完再汇报",d:[["F",2],["H",1]]}]},
+ {t:"独居在外地时，爸妈的查岗电话：",o:[
+   {x:"一天一个，习惯成自然",d:[["B",1],["D",1]]},
+   {x:"每周固定视频，有仪式感",d:[["B",1]]},
+   {x:"间隔越长越舒服",d:[["F",2]]},
+   {x:"看到未接来电有点心虚",d:[["A",1],["D",1]]}]},
+ {t:"你 emo 的时候会找谁：",o:[
+   {x:"找朋友，家丑不外扬",d:[["A",1]]},
+   {x:"找爸妈，他们永远是后盾",d:[["A",-2],["B",1]]},
+   {x:"谁都不找，自己消化",d:[["A",1],["D",2]]},
+   {x:"发到网上，和陌生人诉苦",d:[["G",1]]}]},
+ {t:"爸妈的“为你好”三连，你的内心 OS：",o:[
+   {x:"“确实是为我好，是我做得不够”",d:[["B",2],["D",2]]},
+   {x:"“道理我懂，但方式能不能换换”",d:[["H",1]]},
+   {x:"“好的好的”，左耳进右耳出",d:[["G",1],["H",1]]},
+   {x:"“我知道自己在干什么”",d:[["F",1],["H",1]]}]},
+ {t:"家庭决策（装修/旅游）里你的话语权：",o:[
+   {x:"全家商量投票，我有一票",d:[["B",1]]},
+   {x:"爸妈定，我执行",d:[["B",2],["H",-1]]},
+   {x:"我的事我做主，家里事我也发言",d:[["C",2],["H",1]]},
+   {x:"我只负责被通知",d:[["B",1],["A",1]]}]},
+ {t:"深夜刷到“原生家庭”话题，你会：",o:[
+   {x:"秒赞收藏，谁也不告诉",d:[["A",1],["D",2]]},
+   {x:"转发给兄弟姐妹：“演我”",d:[["G",1]]},
+   {x:"有点感慨，划走睡觉",d:[["F",1]]},
+   {x:"反手给爸妈发了个红包",d:[["G",2]]}]},
+ {t:"爸妈第一次来你的出租屋：",o:[
+   {x:"提前大扫除，把生活痕迹全部隐藏",d:[["B",2],["A",1],["E",1]]},
+   {x:"欢迎参观，这就是真实生活",d:[["C",-1],["F",1]]},
+   {x:"只让看客厅，卧室上锁",d:[["C",2]]},
+   {x:"拒绝参观，直接外面吃了个饭",d:[["A",1]]}]},
+ {t:"你对“报平安”的态度：",o:[
+   {x:"到哪都要报备，已成肌肉记忆",d:[["B",1]]},
+   {x:"重要节点报一下，日常免了",d:[["B",1]]},
+   {x:"想起来才报，经常忘",d:[["F",1]]},
+   {x:"从不报备，信号屏蔽中",d:[["A",1],["C",2]]}]},
+ {t:"爸妈夸你的时候，你的真实反应：",o:[
+   {x:"有点不自在，是不是有事要我帮忙",d:[["D",2],["G",1]]},
+   {x:"开心，但嘴上说“一般般啦”",d:[["A",1],["G",2]]},
+   {x:"大方收下，谢谢夸奖",d:[["H",1]]},
+   {x:"心里想：终于看到我的好了",d:[["D",1],["B",1]]}]},
+ {t:"你的“懂事”是从什么时候开始的：",o:[
+   {x:"很小就知道家里条件有限，能省就省",d:[["B",2],["D",1]]},
+   {x:"上学住校后，学会自己扛事",d:[["F",1]]},
+   {x:"工作后，突然懂了他们的不容易",d:[["B",1],["D",1]]},
+   {x:"没觉得多懂事，就是正常操作",d:[["H",1],["B",-1]]}]},
+ {t:"经历过挫折（失业/分手）之后，你：",o:[
+   {x:"更拼了，想证明给他们看",d:[["H",2],["F",1]]},
+   {x:"更沉默了，很多事不再跟家里说",d:[["A",1],["D",2]]},
+   {x:"更粘家了，突然理解了他们",d:[["A",-1],["B",1]]},
+   {x:"没什么变化，人生就是起起落落",d:[["G",1],["F",1]]}]},
+ {t:"你理想中跟爸妈的相处状态：",o:[
+   {x:"现在这样就挺好，各自安好",d:[["F",1]]},
+   {x:"像朋友一样无话不谈",d:[["A",-2],["B",1]]},
+   {x:"保持距离，但心里有彼此",d:[["C",2],["F",1]]},
+   {x:"没想过，走一步看一步",d:[["F",1],["G",1]]}]},
+ {t:"系统自检最后一项，你的出厂最大特点：",o:[
+   {x:"察言观色出厂自带，进屋先看脸色",d:[["E",2],["B",1]]},
+   {x:"报喜不报忧出厂自带，苦水自己消化",d:[["A",1],["D",2]]},
+   {x:"反骨出厂自带，让干嘛先想要不要干",d:[["H",2]]},
+   {x:"边界感出厂自带，亲妈也要敲门",d:[["C",2],["F",1]]}]}
+];
+/* ========= 9 个专属形象 ========= */
+var ART=["<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\"><defs><linearGradient id=\"g1\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0\" stop-color=\"#FF9F0A\"/><stop offset=\"1\" stop-color=\"#B25E08\"/></linearGradient></defs><rect width=\"200\" height=\"200\" rx=\"30\" fill=\"url(#g1)\"/><circle cx=\"100\" cy=\"88\" r=\"44\" fill=\"#FFF6E3\"/><circle cx=\"87\" cy=\"82\" r=\"5\" fill=\"#3A2E1E\"/><circle cx=\"113\" cy=\"82\" r=\"5\" fill=\"#3A2E1E\"/><path d=\"M80 70 Q87 64 94 69\" stroke=\"#3A2E1E\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M106 69 Q113 64 120 70\" stroke=\"#3A2E1E\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M93 100 Q100 106 107 100\" stroke=\"#3A2E1E\" stroke-width=\"3.5\" fill=\"none\" stroke-linecap=\"round\"/><ellipse cx=\"72\" cy=\"94\" rx=\"7\" ry=\"4\" fill=\"#FFB27A\" opacity=\".8\"/><ellipse cx=\"128\" cy=\"94\" rx=\"7\" ry=\"4\" fill=\"#FFB27A\" opacity=\".8\"/><rect x=\"78\" y=\"128\" width=\"44\" height=\"42\" rx=\"16\" fill=\"#8A4A06\"/><ellipse cx=\"146\" cy=\"168\" rx=\"26\" ry=\"8\" fill=\"#FFF6E3\"/><rect x=\"136\" y=\"152\" width=\"20\" height=\"15\" rx=\"5\" fill=\"#FFF6E3\"/><path d=\"M158 155 q11 3 0 11\" stroke=\"#FFF6E3\" stroke-width=\"4\" fill=\"none\"/></svg>", "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\"><defs><linearGradient id=\"g2\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0\" stop-color=\"#30D158\"/><stop offset=\"1\" stop-color=\"#1B8A3A\"/></linearGradient></defs><rect width=\"200\" height=\"200\" rx=\"30\" fill=\"url(#g2)\"/><circle cx=\"100\" cy=\"88\" r=\"44\" fill=\"#FFF6E3\"/><path d=\"M79 81 Q87 72 95 81\" stroke=\"#3A2E1E\" stroke-width=\"4\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M105 81 Q113 72 121 81\" stroke=\"#3A2E1E\" stroke-width=\"4\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M85 95 Q100 118 115 95 Z\" fill=\"#3A2E1E\"/><ellipse cx=\"70\" cy=\"93\" rx=\"8\" ry=\"4.5\" fill=\"#FFB27A\" opacity=\".8\"/><ellipse cx=\"130\" cy=\"93\" rx=\"8\" ry=\"4.5\" fill=\"#FFB27A\" opacity=\".8\"/><rect x=\"80\" y=\"126\" width=\"40\" height=\"44\" rx=\"16\" fill=\"#136A2E\"/><rect x=\"124\" y=\"128\" width=\"34\" height=\"13\" rx=\"6.5\" fill=\"#136A2E\" transform=\"rotate(-32 124 134)\"/><circle cx=\"157\" cy=\"110\" r=\"11\" fill=\"#FFF6E3\"/><rect x=\"153\" y=\"93\" width=\"9\" height=\"17\" rx=\"4.5\" fill=\"#FFF6E3\"/><ellipse cx=\"42\" cy=\"170\" rx=\"21\" ry=\"9\" fill=\"#C9CBD1\"/><circle cx=\"36\" cy=\"163\" r=\"8\" fill=\"#C9CBD1\"/><circle cx=\"48\" cy=\"161\" r=\"9\" fill=\"#C9CBD1\"/><circle cx=\"36\" cy=\"170\" r=\"1.8\" fill=\"#7A7E85\"/><circle cx=\"43\" cy=\"170\" r=\"1.8\" fill=\"#7A7E85\"/><circle cx=\"50\" cy=\"170\" r=\"1.8\" fill=\"#7A7E85\"/></svg>", "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\"><defs><linearGradient id=\"g3\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0\" stop-color=\"#FF453A\"/><stop offset=\"1\" stop-color=\"#B22D26\"/></linearGradient></defs><rect width=\"200\" height=\"200\" rx=\"30\" fill=\"url(#g3)\"/><path d=\"M100 26 Q91 42 100 54 Q109 42 100 26\" fill=\"#FFD60A\"/><path d=\"M100 38 Q96 46 100 52 Q104 46 100 38\" fill=\"#FF9F0A\"/><circle cx=\"100\" cy=\"92\" r=\"44\" fill=\"#FFF6E3\"/><path d=\"M78 70 Q88 62 96 68\" stroke=\"#3A2E1E\" stroke-width=\"3.5\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M106 71 Q114 71 122 71\" stroke=\"#3A2E1E\" stroke-width=\"3.5\" fill=\"none\" stroke-linecap=\"round\"/><circle cx=\"88\" cy=\"84\" r=\"5\" fill=\"#3A2E1E\"/><circle cx=\"114\" cy=\"84\" r=\"5\" fill=\"#3A2E1E\"/><path d=\"M92 104 Q104 96 114 104\" stroke=\"#3A2E1E\" stroke-width=\"3.5\" fill=\"none\" stroke-linecap=\"round\"/><rect x=\"74\" y=\"126\" width=\"52\" height=\"44\" rx=\"16\" fill=\"#8E1F1A\"/><rect x=\"66\" y=\"134\" width=\"62\" height=\"14\" rx=\"7\" fill=\"#8E1F1A\" transform=\"rotate(10 97 141)\"/><rect x=\"72\" y=\"128\" width=\"62\" height=\"14\" rx=\"7\" fill=\"#8E1F1A\" transform=\"rotate(-10 103 135)\"/></svg>", "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\"><defs><linearGradient id=\"g4\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0\" stop-color=\"#0A84FF\"/><stop offset=\"1\" stop-color=\"#0A5BBF\"/></linearGradient></defs><rect width=\"200\" height=\"200\" rx=\"30\" fill=\"url(#g4)\"/><circle cx=\"100\" cy=\"86\" r=\"44\" fill=\"#FFF6E3\"/><circle cx=\"87\" cy=\"82\" r=\"5\" fill=\"#3A2E1E\"/><circle cx=\"113\" cy=\"82\" r=\"5\" fill=\"#3A2E1E\"/><path d=\"M92 101 Q100 106 108 101\" stroke=\"#3A2E1E\" stroke-width=\"3.5\" fill=\"none\" stroke-linecap=\"round\"/><rect x=\"74\" y=\"126\" width=\"52\" height=\"40\" rx=\"16\" fill=\"#084A8F\"/><path d=\"M100 124 L140 138 L133 172 Q100 188 67 172 L60 138 Z\" fill=\"#FFF6E3\"/><rect x=\"91\" y=\"156\" width=\"18\" height=\"14\" rx=\"4\" fill=\"#0A5BBF\"/><path d=\"M94 156 v-6 a6 6 0 0 1 12 0 v6\" stroke=\"#0A5BBF\" stroke-width=\"3.5\" fill=\"none\"/></svg>", "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\"><defs><linearGradient id=\"g5\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0\" stop-color=\"#BF5AF2\"/><stop offset=\"1\" stop-color=\"#7A36A8\"/></linearGradient></defs><rect width=\"200\" height=\"200\" rx=\"30\" fill=\"url(#g5)\"/><circle cx=\"146\" cy=\"48\" r=\"5\" fill=\"#FFF6E3\" opacity=\".85\"/><circle cx=\"160\" cy=\"32\" r=\"8\" fill=\"#FFF6E3\" opacity=\".85\"/><circle cx=\"177\" cy=\"14\" r=\"12\" fill=\"#FFF6E3\" opacity=\".85\"/><circle cx=\"100\" cy=\"90\" r=\"44\" fill=\"#FFF6E3\"/><circle cx=\"86\" cy=\"83\" r=\"7\" fill=\"none\" stroke=\"#3A2E1E\" stroke-width=\"3\"/><circle cx=\"86\" cy=\"83\" r=\"2.5\" fill=\"#3A2E1E\"/><circle cx=\"114\" cy=\"83\" r=\"7\" fill=\"none\" stroke=\"#3A2E1E\" stroke-width=\"3\"/><circle cx=\"114\" cy=\"83\" r=\"2.5\" fill=\"#3A2E1E\"/><path d=\"M90 103 Q95 99 100 103 Q105 107 110 103\" stroke=\"#3A2E1E\" stroke-width=\"3.5\" fill=\"none\" stroke-linecap=\"round\"/><ellipse cx=\"72\" cy=\"95\" rx=\"7\" ry=\"4\" fill=\"#D9A0F5\" opacity=\".8\"/><ellipse cx=\"128\" cy=\"95\" rx=\"7\" ry=\"4\" fill=\"#D9A0F5\" opacity=\".8\"/><rect x=\"78\" y=\"128\" width=\"44\" height=\"42\" rx=\"16\" fill=\"#5E2480\"/><circle cx=\"61\" cy=\"62\" r=\"9\" fill=\"#FFF6E3\"/><circle cx=\"139\" cy=\"62\" r=\"9\" fill=\"#FFF6E3\"/></svg>", "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\"><defs><linearGradient id=\"g6\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0\" stop-color=\"#FFD60A\"/><stop offset=\"1\" stop-color=\"#B29A00\"/></linearGradient></defs><rect width=\"200\" height=\"200\" rx=\"30\" fill=\"url(#g6)\"/><circle cx=\"100\" cy=\"90\" r=\"44\" fill=\"#FFF6E3\"/><circle cx=\"86\" cy=\"82\" r=\"5\" fill=\"#3A2E1E\"/><path d=\"M106 82 Q113 75 120 82\" stroke=\"#3A2E1E\" stroke-width=\"4\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M85 96 Q100 116 115 96 Z\" fill=\"#3A2E1E\"/><path d=\"M93 106 Q100 111 107 106 Z\" fill=\"#FF8A5C\"/><ellipse cx=\"70\" cy=\"94\" rx=\"8\" ry=\"4.5\" fill=\"#FFB27A\" opacity=\".85\"/><ellipse cx=\"130\" cy=\"94\" rx=\"8\" ry=\"4.5\" fill=\"#FFB27A\" opacity=\".85\"/><path d=\"M147 58 q7 11 0 15 q-7 -4 0 -15\" fill=\"#64D2FF\"/><rect x=\"78\" y=\"128\" width=\"44\" height=\"42\" rx=\"16\" fill=\"#8F7A00\"/><circle cx=\"152\" cy=\"112\" r=\"12\" fill=\"#FFF6E3\"/><circle cx=\"152\" cy=\"112\" r=\"12\" fill=\"none\" stroke=\"#3A2E1E\" stroke-width=\"2.5\"/><rect x=\"147\" y=\"124\" width=\"10\" height=\"22\" rx=\"5\" fill=\"#3A2E1E\"/></svg>", "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\"><defs><linearGradient id=\"g7\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0\" stop-color=\"#64D2FF\"/><stop offset=\"1\" stop-color=\"#2A9BC4\"/></linearGradient></defs><rect width=\"200\" height=\"200\" rx=\"30\" fill=\"url(#g7)\"/><circle cx=\"100\" cy=\"88\" r=\"44\" fill=\"#FFF6E3\"/><path d=\"M80 81 Q87 74 94 81\" stroke=\"#3A2E1E\" stroke-width=\"4\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M106 81 Q113 74 120 81\" stroke=\"#3A2E1E\" stroke-width=\"4\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M92 101 Q100 107 108 101\" stroke=\"#3A2E1E\" stroke-width=\"3.5\" fill=\"none\" stroke-linecap=\"round\"/><ellipse cx=\"72\" cy=\"94\" rx=\"7\" ry=\"4\" fill=\"#8AD8FF\" opacity=\".9\"/><ellipse cx=\"128\" cy=\"94\" rx=\"7\" ry=\"4\" fill=\"#8AD8FF\" opacity=\".9\"/><rect x=\"80\" y=\"126\" width=\"40\" height=\"44\" rx=\"16\" fill=\"#176E8F\"/><rect x=\"46\" y=\"124\" width=\"26\" height=\"40\" rx=\"11\" fill=\"#0E5670\"/><path d=\"M46 136 h26\" stroke=\"#FFF6E3\" stroke-width=\"3\" opacity=\".7\"/><circle cx=\"150\" cy=\"140\" r=\"14\" fill=\"#FFF6E3\"/><path d=\"M150 132 L156 146 L144 146 Z\" fill=\"#FF453A\"/><circle cx=\"150\" cy=\"140\" r=\"2.5\" fill=\"#3A2E1E\"/></svg>", "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\"><defs><linearGradient id=\"g8\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0\" stop-color=\"#5E5CE6\"/><stop offset=\"1\" stop-color=\"#3D3AA8\"/></linearGradient></defs><rect width=\"200\" height=\"200\" rx=\"30\" fill=\"url(#g8)\"/><path d=\"M80 48 L70 30\" stroke=\"#FFF6E3\" stroke-width=\"4\" stroke-linecap=\"round\"/><circle cx=\"68\" cy=\"26\" r=\"5\" fill=\"#FFD60A\"/><path d=\"M120 48 L130 30\" stroke=\"#FFF6E3\" stroke-width=\"4\" stroke-linecap=\"round\"/><circle cx=\"132\" cy=\"26\" r=\"5\" fill=\"#FFD60A\"/><circle cx=\"100\" cy=\"90\" r=\"44\" fill=\"#FFF6E3\"/><circle cx=\"85\" cy=\"84\" r=\"12\" fill=\"#FFFDF6\"/><circle cx=\"85\" cy=\"84\" r=\"5.5\" fill=\"#3A2E1E\"/><circle cx=\"115\" cy=\"84\" r=\"12\" fill=\"#FFFDF6\"/><circle cx=\"115\" cy=\"84\" r=\"5.5\" fill=\"#3A2E1E\"/><circle cx=\"100\" cy=\"106\" r=\"4.5\" fill=\"none\" stroke=\"#3A2E1E\" stroke-width=\"3\"/><ellipse cx=\"70\" cy=\"96\" rx=\"7\" ry=\"4\" fill=\"#B9B7F7\" opacity=\".8\"/><ellipse cx=\"130\" cy=\"96\" rx=\"7\" ry=\"4\" fill=\"#B9B7F7\" opacity=\".8\"/><rect x=\"78\" y=\"128\" width=\"44\" height=\"42\" rx=\"16\" fill=\"#2C2A7E\"/><path d=\"M40 70 Q48 48 66 38\" stroke=\"#FFF6E3\" stroke-width=\"3\" fill=\"none\" opacity=\".7\"/><path d=\"M32 80 Q42 50 62 34\" stroke=\"#FFF6E3\" stroke-width=\"3\" fill=\"none\" opacity=\".4\"/></svg>", "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\"><defs><linearGradient id=\"g9\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0\" stop-color=\"#9A9AA0\"/><stop offset=\"1\" stop-color=\"#5C5C61\"/></linearGradient></defs><rect width=\"200\" height=\"200\" rx=\"30\" fill=\"url(#g9)\"/><path d=\"M42 36 l3.5 8 8 3.5 -8 3.5 -3.5 8 -3.5 -8 -8 -3.5 8 -3.5 Z\" fill=\"#FFD60A\"/><path d=\"M158 58 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3 Z\" fill=\"#FFF6E3\"/><path d=\"M150 22 l2.5 6 6 2.5 -6 2.5 -2.5 6 -2.5 -6 -6 -2.5 6 -2.5 Z\" fill=\"#FFD60A\"/><circle cx=\"100\" cy=\"88\" r=\"44\" fill=\"#FFF6E3\"/><path d=\"M80 81 Q87 74 94 81\" stroke=\"#3A2E1E\" stroke-width=\"4\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M106 81 Q113 74 120 81\" stroke=\"#3A2E1E\" stroke-width=\"4\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M90 100 Q100 108 110 100\" stroke=\"#3A2E1E\" stroke-width=\"3.5\" fill=\"none\" stroke-linecap=\"round\"/><ellipse cx=\"72\" cy=\"94\" rx=\"7\" ry=\"4\" fill=\"#D9B8A0\" opacity=\".8\"/><ellipse cx=\"128\" cy=\"94\" rx=\"7\" ry=\"4\" fill=\"#D9B8A0\" opacity=\".8\"/><rect x=\"78\" y=\"126\" width=\"44\" height=\"44\" rx=\"16\" fill=\"#45454A\"/><rect x=\"56\" y=\"130\" width=\"30\" height=\"12\" rx=\"6\" fill=\"#45454A\" transform=\"rotate(35 71 136)\"/><rect x=\"114\" y=\"130\" width=\"30\" height=\"12\" rx=\"6\" fill=\"#45454A\" transform=\"rotate(-35 129 136)\"/></svg>"];
+/* ========= 9 段小传 ========= */
+var BIO=["你好像从小就自带一版「省心固件」。别人家孩子还在撒娇的年纪，你已经学会先看一眼桌上的菜，再决定要不要说想吃什么。这不是天生的，是你一帧一帧观察出来的答案。但请记得：懂事是被夸出来的习惯，不是你的义务——偶尔“不懂事”一下，天塌不下来。", "你的通讯录里，家人永远在「特别关心」，却永远看不到你的朋友圈。你不是不想说，是怕他们担心——所以你把难过打包、压缩、加密，只递出去一个“没事”。可爸妈宁要你十次狼狈的实话，也不要一次漂亮的好。试着从最小的一件事开始，让草稿箱见见光。", "“不行”“不许”“你还小”——这些指令在你这里从来没有真正生效过。别人眼里的顶嘴，其实是你最早的主权宣言：我的人生，得我说了算。这股劲儿陪你翻过了很多座山，往后也请留着，只是偶尔，也听听那些真心为你好的人怎么说。", "你的世界管理得很清楚：哪些能共享，哪些只读，哪些彻底加密，权限都在你手里。有人觉得你冷淡，其实你只是明白——不是所有门都需要敞开，不是所有问题都值得回答。守住边界的人，才有余力温柔。", "你的大脑是一台永不停机的服务器：白天的对话、十年前的尴尬、还没发生的争吵，都在后台排队运行。你以为这是缺点，其实这是敏感，是天赋装错了启动方式。给它设个下班时间吧——想十分钟，就去做一件很小很具体的事。", "你是全场的气氛担当，也是家里最会接话的那个人。但只有你自己知道，段子是你的缓冲垫——所有太重的话题，落地前都被你悄悄换成了笑声。下次试试不走幽默通道，把那句话原样说出去，你会发现对方接得住。", "搬家、修灯、报修、签合同，你的人生技能树点得比谁都满。没人教过你怎么依赖别人，所以你学会了怎么谁都别靠。独立是你的铠甲，但铠甲穿久了会忘：偶尔喊一声“帮帮我”，也是一种很勇敢的长大。", "你进门三秒就能读完全场：谁心情不好，谁话里有话，谁的沉默需要台阶。这项技能陪你在很多场合化险为夷，也让你累得悄无声息。记得把它也用在自己身上——你的脸色，也值得被你自己第一个看见。", "你没有活在任何人的期待里。喜欢什么、拒绝什么、要成为什么样的人，都是你自己一个版本一个版本迭代出来的。这套系统很干净，也很贵重——请继续免费使用你自己。"];
+/* ========= 引擎 ========= */
+var KEYS="ABCDEFGH".split("");
+var idx=0,answers=[];
+function $(id){return document.getElementById(id)}
+function show(p){["pHome","pQuiz","pResult"].forEach(function(x){$(x).classList.add("hide")});$(p).classList.remove("hide")}
+function start(){idx=0;answers=[];show("pQuiz");render()}
+function render(){
+  var q=Q[idx];
+  $("qNum").textContent="SYSTEM CHECK · 第 "+(idx+1)+" / "+Q.length+" 项";
+  $("qBar").style.width=Math.round((idx+1)/Q.length*100)+"%";
+  $("qText").textContent=q.t;
+  var h="";
+  q.o.forEach(function(o,i){h+='<button class="opt" onclick="pick('+i+')"><span class="radio"></span>'+o.x+"</button>"});
+  $("qOpts").innerHTML=h;
+}
+function pick(i){
+  answers.push(i);
+  idx++;
+  if(idx>=Q.length){renderResult()}else{render()}
+}
+function isUnlocked(){
+  if(!ACCESS_TOKEN)return true;
+  if(sessionStorage.getItem("cc_ok")===ACCESS_TOKEN)return true;
+  var m=location.search.match(/[?&]k=([^&]+)/);
+  return !!(m&&decodeURIComponent(m[1])===ACCESS_TOKEN);
+}
+function tryUnlock(){
+  var v=$("tkInput").value.trim();
+  if(v===ACCESS_TOKEN){sessionStorage.setItem("cc_ok",ACCESS_TOKEN);renderResult()}
+  else{alert("激活码不对哦，检查一下再试（激活码见商品购买说明）")}
+}
+function calcUser(){
+  var user={A:0,B:0,C:0,D:0,E:0,F:0,G:0,H:0};
+  answers.forEach(function(ai,qi){
+    Q[qi].o[ai].d.forEach(function(m){user[m[0]]+=m[1]});
+  });
+  /* 中心化：去掉各维度的公共偏置，只保留相对轮廓 */
+  var sum=0;KEYS.forEach(function(k){sum+=user[k]});
+  var mean=sum/8,cen={},mx=1;
+  KEYS.forEach(function(k){cen[k]=user[k]-mean;mx=Math.max(mx,Math.abs(cen[k]))});
+  var su={};KEYS.forEach(function(k){su[k]=cen[k]/mx*2});
+  return su;
+}
+function dist(su,v){var d=0;KEYS.forEach(function(k,i){d+=Math.abs(su[k]-v[i])});return d}
+function renderResult(){
+  var su=calcUser();
+  var ranked=VERS.map(function(c){return {c:c,d:dist(su,c.v)}}).sort(function(a,b){return a.d-b.d});
+  var top=ranked[0],alt=ranked[1],ti=VERS.indexOf(top.c);
+  $("hero").style.background="linear-gradient(160deg,"+top.c.g+","+top.c.g2+")";
+  $("rChar").innerHTML=ART[ti];
+  $("rVer").textContent=top.c.n;
+  $("rTag").textContent=top.c.tag;
+  var list=KEYS.map(function(k){return {k:k,v:su[k]}}).sort(function(a,b){return b.v-a.v});
+  var unlocked=isUnlocked();
+  /* 预装软件清单：定性标签，无数字；未解锁只显示前 2 项 */
+  function chip(v){
+    if(v>=1.2)return ["深度预装 · 开机自启"];
+    if(v>=0.5)return ["后台常驻运行"];
+    if(v>-0.5)return ["按需启动"];
+    if(v>-1.2)return ["休眠模式中"];
+    return ["已主动卸载"];
+  }
+  var h="";
+  list.forEach(function(o,i){
+    var d=DIMS[o.k],lb=chip(o.v)[0];
+    var hidden=(!unlocked&&i>=2);
+    h+='<div class="drow"'+(hidden?' style="filter:blur(7px)"':'')+'>';
+    h+='<div class="ic" style="background:'+d.c+'22">'+d.i+'</div><div class="nm">'+d.n+'</div>';
+    h+='<div class="chip" style="background:'+d.c+'22;color:'+d.c+'">'+lb+'</div></div>';
+  });
+  $("rDims").innerHTML=h;
+  $("lockZone").style.display=unlocked?"none":"";
+  $("paidZone").style.display=unlocked?"":"none";
+  var lg="";
+  if(unlocked){
+    top.c.log.forEach(function(x,i){lg+='<div><span class="lg">LOG_0'+(i+1)+':</span>'+x+'</div>'});
+  }else{
+    lg='<div><span class="lg">LOG_01:</span>'+top.c.log[0]+'</div>';
+  }
+  $("rLog").innerHTML=lg;
+  if(unlocked){
+    $("rBio").textContent=BIO[ti];
+    $("rSkill").textContent=top.c.skill;
+    var tp="";top.c.tips.forEach(function(x){tp+='<div class="sym">'+x+"</div>"});
+    $("rTips").innerHTML=tp;
+    $("rQuote").textContent="“"+top.c.quote+"”";
+    $("rAlt").textContent=alt.c.n;
+    $("rAltNote").textContent="另一个隐藏版本，跟你的内核也沾边。";
+    $("scName").textContent="我的出厂设置："+top.c.n;
+    $("scLine").textContent=top.c.tag;
+    window._shareText="测了原生家庭出厂设置，我是【"+top.c.n+"】——"+top.c.tag+" 你的出厂设置是哪个版本？";
+  }
+  show("pResult");
+  window.scrollTo(0,0);
+}
+function shareIt(){
+  var t=window._shareText||"原生家庭出厂设置检测";
+  if(navigator&&navigator.share){navigator.share({title:"出厂设置检测",text:t}).catch(function(){});}
+  else{alert("长按复制：\n\n"+t);}
+}
+</script>
+</body>
+</html>
